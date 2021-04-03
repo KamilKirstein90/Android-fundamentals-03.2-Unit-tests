@@ -16,6 +16,8 @@
 
 package com.example.android.SimpleCalc;
 
+import android.widget.Toast;
+
 /**
  * Utility class for SimpleCalc to perform the actual calculations.
  */
@@ -42,6 +44,8 @@ public class Calculator {
      * Divide operation
      */
     public double div(double firstOperand, double secondOperand) {
+        if (secondOperand == 0)
+            throw   new IllegalArgumentException("You can not divide by zero!");
         return firstOperand / secondOperand;
     }
 

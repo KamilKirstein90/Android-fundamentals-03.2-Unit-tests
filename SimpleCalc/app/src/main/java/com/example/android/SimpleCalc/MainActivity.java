@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * SimpleCalc is the initial version of SimpleCalcTest.  It has
@@ -112,8 +113,16 @@ public class MainActivity extends Activity {
                         mCalculator.sub(operandOne, operandTwo));
                 break;
             case DIV:
-                result = String.valueOf(
-                        mCalculator.div(operandOne, operandTwo));
+                try
+                {
+                    result = String.valueOf(
+                            mCalculator.div(operandOne, operandTwo));
+                }
+                catch (IllegalArgumentException iae)
+                {
+                    result ="Error";
+                    Toast.makeText(MainActivity.this, iae.getMessage(), Toast.LENGTH_LONG).show();  // because the div method of the calculator class now throws the IllegalArgumentException we can check for it and display a toast if the exception happens
+                }
                 break;
             case MUL:
                 result = String.valueOf(
@@ -131,8 +140,11 @@ public class MainActivity extends Activity {
      */
     private static Double getOperand(EditText operandEditText) {
         String operandText = getOperandText(operandEditText);
+
+        // Bugfix that creates the exception NumberFormatException when the string is empty I automaticaly asight a "0" to it
         if (operandText.isEmpty())
             operandText = "0";
+
         return Double.valueOf(operandText);
     }
 
